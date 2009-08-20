@@ -23,7 +23,7 @@ def main(*args):
 
 if __name__=='__main__':
 	import sys
-	if len(sys.argv) == 4:
+	if len(sys.argv) == 5:
 		main(*sys.argv[1:])
 	else:
 		usage(sys.argv[0])

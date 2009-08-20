@@ -66,8 +66,7 @@ def client(sock):
 			if not cinit:
 				init = sock.read(1024)
 				serv.write(init)
-				print `init`
-				#pretty(sys.stdout, init, '->')
+				pretty(sys.stdout, init, '->')
 				cinit = True
 			else:
 				data = readall(sock, 2)
@@ -75,16 +74,15 @@ def client(sock):
 				cdata = readall(sock, size)
 				serv.write(data+cdata)
 				cdata = cdecomp.decompress(cdata)
-				#print 'Wrote', size
+				print 'Wrote', size
 				dump(log, cdata, '->')
-				#pretty(log, cdata, '->')
+				pretty(sys.stdout, cdata, '->')
 				log.flush()
 		if serv in rlist:
 			if not sinit:
 				init = serv.read(1024)
 				sock.write(init)
-				print `init`
-				#pretty(sys.stdout, init, '<-')
+				pretty(sys.stdout, init, '<-')
 				sinit = True
 			else:
 				data = readall(serv, 2)
@@ -92,9 +90,9 @@ def client(sock):
 				cdata = readall(serv, size)
 				sock.write(data+cdata)
 				cdata = sdecomp.decompress(cdata)
-				#print 'Read', size
+				print 'Read', size
 				dump(log, cdata, '<-')
-				#pretty(log, cdata, '<-')
+				pretty(sys.stdout, cdata, '<-')
 				log.flush()
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
