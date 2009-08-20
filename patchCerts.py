@@ -16,7 +16,7 @@ def main(*args):
 	i = old.find(oldCert)
 	while i != -1:
 		print 'Found cert at %08x' % i
-		old = old[:i] + newCert + old[i+len(oldCert):]
+		old = old[:i] + newCert + ('\0' * (len(oldCert) - len(newCert))) + old[i+len(oldCert):]
 		i = old.find(oldCert, i)
 	
 	file(args[1], 'wb').write(old)

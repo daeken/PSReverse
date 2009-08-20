@@ -46,19 +46,19 @@ def readall(sock, size):
 	return ret
 
 def client(sock):
-	print 'new client'
+	print 'New client'
 	sock = ssl.wrap_socket(sock, certfile='mitmcert.key', server_side=True, ssl_version=ssl.PROTOCOL_SSLv3)
 	
 	oserv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	serv = ssl.wrap_socket(oserv, ssl_version=ssl.PROTOCOL_SSLv3, cert_reqs=ssl.CERT_REQUIRED, ca_certs='officialcert.pub')
-	serv.connect(('77.87.178.69', 443))
+	serv.connect(('77.87.178.69', 26002))
 	
 	log = file('log.txt', 'wb')
 	cinit = False
 	sinit = False
 	
-	cdecomp = lzhl.Decompress()
-	sdecomp = lzhl.Decompress()
+	cdecomp = lzhl.Decompressor()
+	sdecomp = lzhl.Decompressor()
 	while True:
 		rlist, _, __ = select.select([sock, serv], [], [])
 		
@@ -96,8 +96,9 @@ def client(sock):
 				log.flush()
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(('', 443))
+sock.bind(('', 26002))
 sock.listen(5)
+print 'Listening...'
 
 while True:
 	thread.start_new_thread(client, (sock.accept()[0], ))
